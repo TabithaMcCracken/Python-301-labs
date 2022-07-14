@@ -45,6 +45,11 @@ class Patient_form():
 
         return amr
 
+    def __repr__(self):
+        return f"Patient (first name: {self.first_name} last name: {self.last_name}\
+            age: {self.age} gender: {self.gender} weight: {self.weight} \
+            height: {self.height} activity level: {self.activity_level}"
+
 patient1 = Patient_form("Jon", "Doe", 40, "male", 90, 182, "lightly active")
 
 amr = patient1.calories_needed()
