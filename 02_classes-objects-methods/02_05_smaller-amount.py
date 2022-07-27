@@ -24,8 +24,11 @@ class Ingredient:
     def __add__(self, other):
         """Combines two ingredients."""
         new_name = self.name + other.name
-        if 
-        return Ingredient(name=new_name, amount=1)
+        if self.amount < other.amount:
+            new_amount = self.amount
+        else:
+            new_amount = other.amount
+        return Ingredient(name=new_name, amount=new_amount)
     
     def __str__(self):
         return f"{self.name} ({self.amount})"
@@ -36,6 +39,6 @@ class Ingredient:
 
 if __name__ == '__main__':
     c = Ingredient("carrot", 5)
-    p = Ingredient("pea", 4)
+    p = Ingredient("pea", 7)
     s = c + p
     print(s)

@@ -8,8 +8,7 @@
 # changing the objects' attributes.
 
 class Vehicle:
-    """Models basic car descriptions.
-    """
+    """Models basic car descriptions."""
 
     def __init__(self, model, year, max_speed):
         self.model = model
@@ -24,11 +23,12 @@ class Vehicle:
         return f"{self.model} {self.year} {self.max_speed}"
 
     def __repr__(self):
-        return f"Vehicle (model: {self.model} year: {self.year} max speed: {self.max_speed})"
+        return f"Vehicle(model={self.model}, year={self.year}, max_speed={self.max_speed})"
 
 
 customer_vehicle1 = Vehicle("Honda", 2010, 140)
 customer_vehicle2 = Vehicle("Ford", 2020, 160)
+
 
 print(customer_vehicle1)
 customer_vehicle1.change_max_speed(Vehicle.change_max_speed)
