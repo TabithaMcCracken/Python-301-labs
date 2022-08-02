@@ -36,7 +36,7 @@ class Ingredient:
     def __repr__(self):
         return f"Ingredient(name={self.name}, amount={self.amount})"
 
-
+        
 if __name__ == '__main__':
     c = Ingredient("carrot", 5)
     p = Ingredient("pea", 7)
