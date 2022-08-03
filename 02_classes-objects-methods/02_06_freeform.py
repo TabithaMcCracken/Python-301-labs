@@ -13,7 +13,7 @@
 
 # When I print the new object, the name isn't printing, but the rest of the attributes print
 
-# Furniture
+# Furniture Class
 class Furniture():
     """Basic household furniture"""
 
@@ -70,7 +70,7 @@ class Furniture():
         return Furniture(name=new_name, length=new_length, width=new_width, height=new_height, weight=new_weight, material=new_material)
 
     def __str__(self) -> str:
-        return f"{self.length} {self.width} {self.height} {self.weight} {self.material}"
+        return f"{self.name} {self.length} {self.width} {self.height} {self.weight} {self.material}"
 
 # floor_space_needed = furniture1.floor_space()
 # print(f"How big is this piece of furniture? {floor_space_needed}")
