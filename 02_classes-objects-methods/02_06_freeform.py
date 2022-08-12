@@ -14,6 +14,10 @@
 # When I print the new object, the name isn't printing, but the rest of the attributes print
 
 # Furniture Class
+from tkinter import UNITS
+import unittest
+
+
 class Furniture():
     """Basic household furniture"""
 
@@ -104,8 +108,8 @@ class Shoes():
     def __str__ (self):
         return f"{self.name} {self.type} {self.gender} {self.size} {self.features}"
 
-shoe1 = Shoes("Teva", "hiking", "women's", 10["waterproof", "non-slip"])
-shoe2 = Shoes("Chaco", "hiking", "women's", 9, [""])
+shoe1 = Shoes("Teva", "hiking", "women's", 10, ["waterproof", "non-slip", "light-weight"])
+shoe2 = Shoes("Chaco", "hiking", "women's", 9, ["waterproof", "non-slip"])
 
 shoe1.type = "sandal"
 print(shoe1)
@@ -117,5 +121,24 @@ print(shoe2)
 class Desserts():
     """Types of Desserts"""
 
-    def __init__(self, name, type, ) -> None:
-        pass
+    def __init__(self, name, dessert_type, ingredients, measuring_unit, amount) -> None:
+        self.name = name
+        self.dessert_type = dessert_type
+        self.ingredients = ingredients
+        self.measuring_unit = measuring_unit
+        self.amount = amount
+
+    def __str__(self) -> str:
+        return f"{self.name} {self.dessert_type} {self.ingredients} {self.measuring_unit} {self.amount}"
+
+    def __allergy_info__(self):
+        if "flour" in self.ingredients:
+            return "This dessert is not gluten free."
+        else:
+            return "There are no allergy warnings for this dessert."
+
+
+sugar_cookie = Desserts("sugar cookie", "cookie", ["flour", "sugar", "butter", "eggs"], "cookie", 12)
+
+allergy_warning = sugar_cookie.__allergy_info__()
+print(allergy_warning)
