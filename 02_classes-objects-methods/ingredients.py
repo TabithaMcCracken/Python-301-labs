@@ -17,6 +17,7 @@ class Ingredient():
         return f"{self.name} {self.amount}"
 
 carrot = Ingredient("carrot", 2)
+carrot.get_info()
 
-open_url = carrot.get_info()
-print(open_url)
+#open_url = carrot.get_info()
+#print(open_url)

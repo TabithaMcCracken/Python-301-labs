@@ -18,7 +18,6 @@ class Furniture():
     """Basic household furniture"""
 
     def __init__(self, name, length, width, height, weight, material):
-
         self.name = name
         self.length = length
         self.width = width
@@ -27,6 +26,7 @@ class Furniture():
         self.material = material
 
     def floor_space(self):
+        """Calculates how much floor space the piece of furniture take up"""
         area = self.length * self.width #Measured in feet
         if area <= 4:
             floor_size = "small"
@@ -38,6 +38,7 @@ class Furniture():
         return floor_size
 
     def lift_assist (self):
+        """Determines if the furniture is heavy enough to need a list assist"""
         if self.weight > 40:
             need_lift_assist = "Yes"
         else:
@@ -46,6 +47,7 @@ class Furniture():
         return need_lift_assist
 
     def cleaning_method (self):
+        """Determines the cleaning method for the furniture"""
         if self.material == "wood":
             method = "Clean with wood polish"
         elif self.material == "cloth":
@@ -72,33 +74,38 @@ class Furniture():
     def __str__(self) -> str:
         return f"{self.name} {self.length} {self.width} {self.height} {self.weight} {self.material}"
 
-# floor_space_needed = furniture1.floor_space()
-# print(f"How big is this piece of furniture? {floor_space_needed}")
-# how_to_clean = furniture1.cleaning_method()
-# print(f"How do you clean this item? {how_to_clean}")
-# lift_assist = furniture2.lift_assist()
-# print(f"Is a life assist needed to move this piece of furniture? {lift_assist}")
-
 furniture1 = Furniture("chair", 2, 2, 4, 15, "wood")
 furniture2 = Furniture("table", 5, 3, 3.5, 40, "leather")
+
+print(f"Piece of furniture: {furniture1.name}")
+floor_space_needed = furniture1.floor_space()
+print(f"How big is this piece of furniture? {floor_space_needed}")
+how_to_clean = furniture1.cleaning_method()
+print(f"How do you clean this item? {how_to_clean}")
+lift_assist = furniture1.lift_assist()
+print(f"Is a lift assist needed to move this piece of furniture? {lift_assist}")
+
+
 furniture_package = furniture1 + furniture2
-print(furniture_package) # Doesn't print the name attribute
+print(f"Here is the furniture package: {furniture_package}") # Doesn't print the name attribute
 print(furniture_package.name)
 
-# Shoes
+
+# Shoes Class
 
 class Shoes():
-    def __init__(self, name, type, gender, size):
+    def __init__(self, name, type, gender, size, features):
         self.name = name
         self.type = type
         self.gender = gender
         self.size = size
+        self.features = features
     
     def __str__ (self):
-        return f"{self.name} {self.type} {self.gender} {self.size}"
+        return f"{self.name} {self.type} {self.gender} {self.size} {self.features}"
 
-shoe1 = Shoes("Teva", "hiking", "women's", 10)
-shoe2 = Shoes("Chaco", "hiking", "women's", 9)
+shoe1 = Shoes("Teva", "hiking", "women's", 10["waterproof", "non-slip"])
+shoe2 = Shoes("Chaco", "hiking", "women's", 9, [""])
 
 shoe1.type = "sandal"
 print(shoe1)
