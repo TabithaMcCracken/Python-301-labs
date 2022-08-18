@@ -28,41 +28,49 @@ class Pokemon():
     def battle (self, computer_pokemon):
         # water > fire > grass > water
         if self.primary_type == computer_pokemon.primary_type:
-            print(f"Both Pokemon are type {self.primary_type}, it's a tie! They both loose 5 HP. \n")
-            user_pokemon.hp -= 5
-            computer_pokemon.hp -= 5
+            print(f"Both Pokemon are type {self.primary_type}, it's a tie! They both loose 1 HP. \n")
+            user_pokemon.hp -= 1
+            computer_pokemon.hp -= 1
             print(f"You HP is now: {user_pokemon.hp}\n")
+            if user_pokemon.hp <= 0:
+                print("Your Pokemon has run out of HP and has died!")
         elif user_pokemon.primary_type == "water":
             if computer_pokemon.primary_type == "fire":
                 print(f"Your Pokemon is a water type, theirs is a fire type, you win!")
-                user_pokemon.hp += 5
-                print(f"You HP is now: {user_pokemon.hp}")
+                if user_pokemon.hp >= user_pokemon.max_hp:
+                    print("Your Pokemon is at its max HP.")
+                else:
+                    user_pokemon.hp += 1
+                    print(f"You HP is now: {user_pokemon.hp}")
             else:
                 print("Your Pokemon is a water type and theirs is a grass, you loose!")
-                user_pokemon.hp -= 5
+                user_pokemon.hp -= 1
                 print(f"Your HP is now {user_pokemon.hp}")
         elif user_pokemon.primary_type == "fire":
             if computer_pokemon.primary_type == "grass":
                 print("Your Pokemon is a fire type, theirs is a grass type, you win!")
-                user_pokemon.hp += 5
+                user_pokemon.hp += 1
                 print(f"You HP is now: {user_pokemon.hp}")
             else:
                 print("Your Pokemon is a fire type and theirs is a water type, you loose!")
-                user_pokemon.hp -= 5
+                user_pokemon.hp -= 1
                 print(f"Your HP is now {user_pokemon.hp}")
         elif user_pokemon.primary_type == "grass":
             if computer_pokemon.primary_type == "water":
                 print("Your Pokemon is a grass type and theirs is a water type, you win!")
-                user_pokemon.hp += 5
+                user_pokemon.hp += 1
                 print(f"You HP is now: {user_pokemon.hp}")
             else:
                 print("Your Pokemon is a grass type and theirs is a fire type, you loose!")
-                user_pokemon.hp -= 5
+
                 print(f"Your HP is now {user_pokemon.hp}")
 
     def feed(self):
-        self.hp += 5
-        print(f"Your Pokemon now has an HP of: {self.hp}")
+        if self.hp <self.max_hp:
+            self.hp += 1
+            print(f"Your Pokemon now has an HP of: {self.hp}")
+        else:
+            print(f"Your Pokemon is at its maximum HP.")
 
     def __str__(self) -> str:
         return f"{self.name} {self.primary_type} {self.max_hp} {self.hp}"
