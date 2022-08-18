@@ -9,3 +9,26 @@
 # 5) Practice planning out and flushing out these classes even more.
 #     Take notes in your notebook. What other attributes could a `Movie()` class
 #     contain? What methods? What should the child classes inherit as-is or overwrite?
+
+
+class Movie:
+    """Movies"""
+    def __init__ (self, title, year):
+        self.title = title
+        self.year = year
+
+    def __str__(self) -> str:
+        return f"{self.title} {self.year}"
+
+    
+class ActionMovie (Movie):
+    """Action Movies"""
+
+    def __init__(self, title, year, pg=13):
+        super().__init__(title, year)
+        self.pg = pg
+
+
+m = ActionMovie("Karate Kid", 1981)
+
+print (m.pg)
