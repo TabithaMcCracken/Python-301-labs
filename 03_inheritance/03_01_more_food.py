@@ -1,3 +1,4 @@
+# Done
 # Create another child class that inherits from `Ingredient()`. You can use
 # the code you wrote yourself, or continue working with the one provided below.
 # Implement at least one extra method for your child class, and override the
