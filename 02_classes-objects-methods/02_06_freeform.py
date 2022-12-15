@@ -1,3 +1,4 @@
+# Done
 # Write a script with three classes that model everyday objects.
 # - Each class should have an `__init__()` method that sets at least 3 attributes
 # - Include a `__str__()` method in each class that prints out the attributes

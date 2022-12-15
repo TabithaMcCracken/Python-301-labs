@@ -1,3 +1,4 @@
+# Done
 # Create another child class that inherits from `Ingredient()`. You can use
 # the code you wrote yourself, or continue working with the one provided below.
 # Implement at least one extra method for your child class, and override the
@@ -39,11 +40,19 @@ class Spice(Ingredient):
 class Vegetable(Ingredient):
     """Models a vegetable to cook with."""
 
+    def __init__(self, name, amount):
+        super().__init__(name,amount)
+
+    def expire(self):
+        print(f"This {self.name} is no good, throw it out!")
 
 
 c = Ingredient("carrots", 3)
 p = Spice("pepper", 20, "hot")
 s = Spice("salt", 200, "salty")
+o = Vegetable("tomato", 5)
+
+print(o.expire())
 
 
 print(c)

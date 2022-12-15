@@ -1,3 +1,4 @@
+# Done
 # CLASSES AND INHERITANCE
 # =======================
 # 1) Define an empty `Movie()` class.
@@ -13,22 +14,33 @@
 
 class Movie:
     """Movies"""
-    def __init__ (self, title, year):
+    def __init__ (self, title, year, genre, length, rating):
         self.title = title
         self.year = year
+        self.genre = genre
+        self.length = length #in minutes
+        self.rating = rating
 
     def __str__(self) -> str:
         return f"{self.title} {self.year}"
 
     
+class RomCon(Movie):
+    """Romantic Comedies"""
+    def __init__(self, title, year, length, rating, heart_throb, genre= "romantic comedy"):
+        super().__init__(title, year, genre, length, rating)
+        self.heart_throb = heart_throb
+
 class ActionMovie (Movie):
     """Action Movies"""
 
-    def __init__(self, title, year, pg=13):
-        super().__init__(title, year)
+    def __init__(self, title, year, genre, length, rating, franchise, pg=13):
+        super().__init__(title, year, genre, length, rating)
         self.pg = pg
+        self.franchise = franchise
 
-
-m = ActionMovie("Karate Kid", 1981)
+m = ActionMovie("Karate Kid", 1981, "action", 91, "PG-13", "Karate Kid")
+n = RomCon("You've Got Mail", 1998, 102, 13, "Tom Hanks")
 
 print (m.pg)
+print(n.year)
