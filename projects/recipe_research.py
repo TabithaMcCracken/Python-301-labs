@@ -40,8 +40,8 @@ class Soup():
     def cook(self):
         # Create list of ingredients
         ingredients = ""
-        for item in self.soup_ing:
-            ingredients += item + "+"
+        for self.name in self.soup_ing: ## or .soup_ing
+            ingredients += str(self.name) + "+" # This is adding the name and the amount
             print(ingredients)
 
         # Get recipes from google with items in the list
@@ -67,7 +67,7 @@ while True:
     else:
         # for item in ingredient_list:
         #    name_list.append(item)
-        soup_ingredients = Soup([ingredient_list]) # How do I send only the name attribute? 
+        soup_ingredients = Soup(ingredient_list) # How do I send only the name attribute? 
         soup_ingredients.cook()
         break
 

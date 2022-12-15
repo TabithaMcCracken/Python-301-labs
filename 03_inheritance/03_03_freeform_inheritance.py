@@ -41,6 +41,25 @@ class Gourmet(Restaurant):
         super().__init__(name, region, to_go, price, meal)
         self.valet = valet
 
+class Mobile(Restaurant):
+    def __init__(self, name, region, to_go, price, meal, type, size):
+        super().__init__(name, region, to_go, price, meal)
+        self.type = type
+        self.size = size
+
+class Truck(Mobile):
+    def __init__(self, name, region, to_go, price, meal, type, size):
+        super().__init__(name, region, to_go, price, meal, type, size)
+
+class Trailer(Mobile):
+    def __init__(self, name, region, to_go, price, meal, type, size):
+        super().__init__(name, region, to_go, price, meal, type, size)
+
+class Cart(Mobile):
+    def __init__(self, name, region, to_go, price, meal, type, size):
+        super().__init__(name, region, to_go, price, meal, type, size)
+
+
 
 mcdonalds = FastFood(
     name= "McDonalds", 
