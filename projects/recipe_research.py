@@ -40,8 +40,8 @@ class Soup():
     def cook(self):
         # Create list of ingredients
         ingredients = ""
-        for self.name in self.soup_ing: ## or .soup_ing
-            ingredients += str(self.name) + "+" # This is adding the name and the amount
+        for name in self.soup_ing: ## or .soup_ing
+            ingredients += str(name) + "+" # This is adding the name and the amount
             print(ingredients)
 
         # Get recipes from google with items in the list
