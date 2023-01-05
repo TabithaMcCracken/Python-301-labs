@@ -16,6 +16,11 @@
 
 from unicodedata import name
 import random
+import csv
+import time
+
+hp_loss_decrement = 5   
+hp_feed_increment = 5
 
 class Pokemon():
     """models basic Pokemon"""
@@ -27,46 +32,85 @@ class Pokemon():
         self.hp = hp
 
     def battle (self, computer_pokemon):
+        print("Let the battle begin...\n")
+        time.sleep(3)
         # water > fire > grass > water
         if self.primary_type == computer_pokemon.primary_type:
-            print(f"Both Pokemon are type {self.primary_type}, it's a tie! You both loose 5 HP. \n")
-            user_pokemon.hp -= 5
-            computer_pokemon.hp -= 5
-            print(f"You HP is now: {user_pokemon.hp}\n")
+            print(
+                f"Both Pokemon are type {self.primary_type}, it's a tie!"
+                f"You both loose {hp_loss_decrement} HP. \n"
+            )
+            user_pokemon.change_hp(-hp_loss_decrement)
+            computer_pokemon.change_hp(-hp_loss_decrement)
+        
         elif user_pokemon.primary_type == "water":
             if computer_pokemon.primary_type == "fire":
-                print(f"Your Pokemon is a water type, theirs is a fire type, you win!")
-                computer_pokemon.hp -= 5
-                print(f"Your HP is {user_pokemon.hp}")
+                print(
+                    f"Your Pokemon is a water type, theirs is a fire type,"
+                    f" you win!"
+                )
+                computer_pokemon.change_hp(-hp_loss_decrement)
             else:
-                print("Your Pokemon is a water type and theirs is a grass, you loose 5 HP!")
-                user_pokemon.hp -= 5
-                print(f"Your HP is now {user_pokemon.hp}")
+                print(
+                    f"Your Pokemon is a water type and theirs is a grass."
+                    f"You lose {hp_loss_decrement} HP!"
+                )
+                user_pokemon.change_hp(-hp_loss_decrement)
+
         elif user_pokemon.primary_type == "fire":
             if computer_pokemon.primary_type == "grass":
-                print("Your Pokemon is a fire type, theirs is a grass type, you win!")
-                computer_pokemon.hp -= 5
-                print(f"Your HP is {user_pokemon.hp}")
+                print(
+                    "Your Pokemon is a fire type. Theirs is a grass type,"
+                    " you win!"
+                )
+                computer_pokemon.change_hp(-hp_loss_decrement)
             else:
-                print("Your Pokemon is a fire type and theirs is a water type, you loose 5 HP!")
-                user_pokemon.hp -= 5
-                print(f"Your HP is now {user_pokemon.hp}")
+                print(
+                    "Your Pokemon is a fire type and theirs is a water type."
+                    f"You loose {hp_loss_decrement} HP!"
+                )
+                user_pokemon.change_hp(-hp_loss_decrement)
         elif user_pokemon.primary_type == "grass":
             if computer_pokemon.primary_type == "water":
-                print("Your Pokemon is a grass type and theirs is a water type, you win!")
-                computer_pokemon.hp -= 5
-                print(f"Your HP is {user_pokemon.hp}")
+                print(
+                    "Your Pokemon is a grass type. Theirs is a water type,"
+                    " you win!"
+                )
+                computer_pokemon.change_hp(-hp_loss_decrement)
             else:
-                print("Your Pokemon is a grass type and theirs is a fire type, you loose 5 HP!")
-                user_pokemon.hp -= 5
-                print(f"Your HP is now {user_pokemon.hp}")
+                print(
+                    "Your Pokemon is a grass type and theirs is a fire type."
+                    f"You loose {hp_loss_decrement} HP!"
+                )
+                user_pokemon.change_hp(-hp_loss_decrement)
 
-    def feed(self):
-        if self.hp <self.max_hp:
-            self.hp += 1
-            print(f"Your Pokemon now has an HP of: {self.hp}")
+    # def feed(self):
+    #     if self.hp <self.max_hp:
+    #         self.hp += hp_feed_increment
+    #         print(f"Your Pokemon now has an HP of: {self.hp}")
+    #     else:
+    #         print(
+    #             f"Your Pokemon is at its maximum HP of {self.hp}."
+    #             f"It can't eat any more!"
+    #         )
+
+    def change_hp(self, change):
+        self.hp += change
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
+            print(
+                f"{self.name} has reached it's maximum HP of {self.hp}\n"
+                f"It can't eat any more!"
+            )
+        elif self.hp <= 0:
+            print(
+                f"{self.name} has lost all it's HP and is now dead."
+            )
         else:
-            print(f"Your Pokemon is at its maximum HP.")
+            print(
+                f"{self.name}'s current HP is now {self.hp}."
+            )
+        
 
     def __str__(self) -> str:
         return f"{self.name} {self.primary_type} {self.max_hp} {self.hp}"
@@ -89,14 +133,34 @@ sobble = Pokemon(
     max_hp = 60,
     hp = 60)
 
-all_pokemon = [charmander, snivy, sobble]
+fennekin = Pokemon(
+    name = "Fennekin",
+    primary_type= "fire",
+    max_hp = 70,
+    hp = 70)
+
+wishiwashi = Pokemon(
+    name = "Wishiwashi",
+    primary_type = "water",
+    max_hp = 30,
+    hp = 30)
+
+caterpie = Pokemon(
+    name = "Caterpie",
+    primary_type = "grass",
+    max_hp = 50,
+    hp = 50)
+
+
+
+all_pokemon = [charmander, snivy, sobble, fennekin, wishiwashi, caterpie]
 
 # User chooses a Pokemon to battle with
 def get_user_choice():
     while True:
-        print(f"Which Pokemon would you like to battle with?") 
+        print(f"Which Pokemon would you like to battle with?\n") 
         for pokemon in all_pokemon:
-            print(f"{pokemon.name}")
+            print(f"{pokemon.name}, {pokemon.primary_type} type, HP:{pokemon.hp}")
         user_choice = input() 
 
         for pokemon in all_pokemon:
@@ -105,7 +169,7 @@ def get_user_choice():
 
 # Get user choice of Pokemon to battle with
 user_pokemon = get_user_choice()
-print(f"You chose {user_pokemon.name} and your HP is {user_pokemon.hp}.")
+print(f"\nYou chose {user_pokemon.name} and your HP is {user_pokemon.hp}.")
 
 # Makes a list of non-zero HP and non-user-selected Pokemon
 def get_available_pokemon():
@@ -117,7 +181,7 @@ def get_available_pokemon():
     print(f"Here are the other Pokemon that are alive:")
     for item in usable_pokemon:
         print(item.name)
-    
+    time.sleep(2)
     return usable_pokemon
 
 # Computer chooses a Pokemon to battle which is not the same as the users
@@ -125,7 +189,11 @@ def get_computer_choice():
         # Pick a random Pokemon from the list
         possible_pokemon = get_available_pokemon()
         computer_choice = random.choice(possible_pokemon)
-        print(f"The computer has chosen to battle with {computer_choice.name} and their HP is {computer_choice.hp}.")
+        print(
+            f"\nThe computer has chosen to battle with {computer_choice.name}. "
+            f"They are a {computer_choice.primary_type} type and "
+            f" their HP is {computer_choice.hp}.\n"
+        )
         return computer_choice
 
 # Get computer pokemon
@@ -135,22 +203,31 @@ computer_pokemon = get_computer_choice()
 user_pokemon.battle(computer_pokemon)
 
 
-while True:
-    if user_pokemon.hp > 0:
-        play_again = int(input("Would you like to battle again[1], feed your Pokemon[2], or exit the game[3]?"))
-        if play_again == 1:
-            computer_pokemon = get_computer_choice()
-            user_pokemon.battle(computer_pokemon)
-        elif play_again == 2:
-            user_pokemon.feed()
-        elif play_again == 3:
-            print(f"Good game! Your Pokemon ended with an HP of {user_pokemon.hp}.")
-            break
+def game_loop():
+    while True:
+        time.sleep(3)
+        if user_pokemon.hp > 0:
+            play_again = int(input("Would you like to battle again[1], feed your Pokemon[2],"
+                " or exit the game[3]?"
+            ))
+            if play_again == 1:
+                computer_pokemon = get_computer_choice()
+                user_pokemon.battle(computer_pokemon)
+            elif play_again == 2:
+                user_pokemon.change_hp(5)
+            elif play_again == 3:
+                print(
+                    f"Good game! Your Pokemon ended with an HP of"
+                    f" {user_pokemon.hp}."
+                    )
+                break
+            else:
+                break
         else:
+            print("Your Pokemon has no HP left and has died...")
             break
-    else:
-        print("Your Pokemon has no HP left and has died...")
-        break
+
+game_loop()
 
 print("Here is the final HP's of all the Pokemon:")
 for x in all_pokemon:
