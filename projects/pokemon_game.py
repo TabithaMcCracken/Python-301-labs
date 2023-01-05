@@ -167,9 +167,7 @@ def get_user_choice():
             if user_choice == pokemon.name:
                 return pokemon
 
-# Get user choice of Pokemon to battle with
-user_pokemon = get_user_choice()
-print(f"\nYou chose {user_pokemon.name} and your HP is {user_pokemon.hp}.")
+
 
 # Makes a list of non-zero HP and non-user-selected Pokemon
 def get_available_pokemon():
@@ -196,12 +194,6 @@ def get_computer_choice():
         )
         return computer_choice
 
-# Get computer pokemon
-computer_pokemon = get_computer_choice()
-
-# Call Battle the battle between the user and the computer
-user_pokemon.battle(computer_pokemon)
-
 
 def game_loop():
     while True:
@@ -227,8 +219,17 @@ def game_loop():
             print("Your Pokemon has no HP left and has died...")
             break
 
-game_loop()
+if __name__ == "__main__":
+    # Get user choice of Pokemon to battle with
+    user_pokemon = get_user_choice()
+    print(f"\nYou chose {user_pokemon.name} and your HP is {user_pokemon.hp}.")
+    # Get computer pokemon
+    computer_pokemon = get_computer_choice()
 
-print("Here is the final HP's of all the Pokemon:")
-for x in all_pokemon:
-    print(f"{x.name}'s HP: {x.hp}")
+    # Call Battle the battle between the user and the computer
+    user_pokemon.battle(computer_pokemon)
+    game_loop()
+
+    print("Here is the final HP's of all the Pokemon:")
+    for x in all_pokemon:
+        print(f"{x.name}'s HP: {x.hp}")
