@@ -34,65 +34,41 @@ class Pokemon():
     def battle (self, computer_pokemon):
         print("Let the battle begin...\n")
         time.sleep(3)
-        # water > fire > grass > water
-        if self.primary_type == computer_pokemon.primary_type:
-            print(
-                f"Both Pokemon are type {self.primary_type}, it's a tie!"
-                f"You both loose {hp_loss_decrement} HP. \n"
-            )
+
+        result = self.determine_battle_result(computer_pokemon)
+
+        print(
+            f"Your Pokemon is a {self.primary_type} and theirs is a "
+            f"{computer_pokemon.primary_type} type."
+        )
+
+        if result == "draw":
+            print(f"It's a tie! You both loose {hp_loss_decrement} HP. \n")
             user_pokemon.change_hp(-hp_loss_decrement)
             computer_pokemon.change_hp(-hp_loss_decrement)
-        
-        elif user_pokemon.primary_type == "water":
-            if computer_pokemon.primary_type == "fire":
-                print(
-                    f"Your Pokemon is a water type, theirs is a fire type,"
-                    f" you win!"
-                )
-                computer_pokemon.change_hp(-hp_loss_decrement)
-            else:
-                print(
-                    f"Your Pokemon is a water type and theirs is a grass."
-                    f"You lose {hp_loss_decrement} HP!"
-                )
-                user_pokemon.change_hp(-hp_loss_decrement)
+        elif result == "win":
+            print(f"You win! The computer loses {hp_loss_decrement} HP.")
+            computer_pokemon.change_hp(-hp_loss_decrement)
+        else:
+            print(f"You lose! You lose {hp_loss_decrement} HP.")
+            self.change_hp(-hp_loss_decrement)
 
-        elif user_pokemon.primary_type == "fire":
-            if computer_pokemon.primary_type == "grass":
-                print(
-                    "Your Pokemon is a fire type. Theirs is a grass type,"
-                    " you win!"
-                )
-                computer_pokemon.change_hp(-hp_loss_decrement)
-            else:
-                print(
-                    "Your Pokemon is a fire type and theirs is a water type."
-                    f"You loose {hp_loss_decrement} HP!"
-                )
-                user_pokemon.change_hp(-hp_loss_decrement)
-        elif user_pokemon.primary_type == "grass":
-            if computer_pokemon.primary_type == "water":
-                print(
-                    "Your Pokemon is a grass type. Theirs is a water type,"
-                    " you win!"
-                )
-                computer_pokemon.change_hp(-hp_loss_decrement)
-            else:
-                print(
-                    "Your Pokemon is a grass type and theirs is a fire type."
-                    f"You loose {hp_loss_decrement} HP!"
-                )
-                user_pokemon.change_hp(-hp_loss_decrement)
-
-    # def feed(self):
-    #     if self.hp <self.max_hp:
-    #         self.hp += hp_feed_increment
-    #         print(f"Your Pokemon now has an HP of: {self.hp}")
-    #     else:
-    #         print(
-    #             f"Your Pokemon is at its maximum HP of {self.hp}."
-    #             f"It can't eat any more!"
-    #         )
+    def determine_battle_result(self, computer_pokemon):
+                # water > fire > grass > water
+        if self.primary_type == computer_pokemon.primary_type:
+            return "draw"
+        elif self.primary_type == "water" and computer_pokemon.primary_type == "fire":
+            return "win"
+        elif self.primary_type == "water" and computer_pokemon.primary_type == "grass":
+            return "lose"
+        elif self.primary_type == "fire" and computer_pokemon.primary_type == "grass":
+            return "win"
+        elif self.primary_type == "fire" and computer_pokemon.primary_type == "water":
+            return "lose"
+        elif self.primary_type == "grass" and computer_pokemon.primary_type == "water":
+            return "win"
+        else:
+            return "lose"
 
     def change_hp(self, change):
         self.hp += change
@@ -111,7 +87,6 @@ class Pokemon():
                 f"{self.name}'s current HP is now {self.hp}."
             )
         
-
     def __str__(self) -> str:
         return f"{self.name} {self.primary_type} {self.max_hp} {self.hp}"
 
@@ -119,39 +94,43 @@ charmander = Pokemon(
     name = "Charmander", 
     primary_type = "fire", 
     max_hp = 50, 
-    hp = 50)
+    hp = 50
+)
 
 snivy = Pokemon(
     name = "Snivy", 
     primary_type = "grass",
     max_hp = 60, 
-    hp = 60)
+    hp = 60
+)
 
 sobble = Pokemon(
     name = "Sobble", 
     primary_type = "water",
     max_hp = 60,
-    hp = 60)
+    hp = 60
+)
 
 fennekin = Pokemon(
     name = "Fennekin",
     primary_type= "fire",
     max_hp = 70,
-    hp = 70)
+    hp = 70
+)
 
 wishiwashi = Pokemon(
     name = "Wishiwashi",
     primary_type = "water",
     max_hp = 30,
-    hp = 30)
+    hp = 30
+)
 
 caterpie = Pokemon(
     name = "Caterpie",
     primary_type = "grass",
     max_hp = 50,
-    hp = 50)
-
-
+    hp = 50
+)
 
 all_pokemon = [charmander, snivy, sobble, fennekin, wishiwashi, caterpie]
 
@@ -160,7 +139,9 @@ def get_user_choice():
     while True:
         print(f"Which Pokemon would you like to battle with?\n") 
         for pokemon in all_pokemon:
-            print(f"{pokemon.name}, {pokemon.primary_type} type, HP:{pokemon.hp}")
+            print(
+                f"{pokemon.name}, {pokemon.primary_type} type, HP:{pokemon.hp}"
+            )
         user_choice = input() 
 
         for pokemon in all_pokemon:
@@ -190,7 +171,7 @@ def get_computer_choice():
         print(
             f"\nThe computer has chosen to battle with {computer_choice.name}. "
             f"They are a {computer_choice.primary_type} type and "
-            f" their HP is {computer_choice.hp}.\n"
+            f"their HP is {computer_choice.hp}.\n"
         )
         return computer_choice
 
