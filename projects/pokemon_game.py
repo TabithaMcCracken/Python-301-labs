@@ -148,8 +148,6 @@ def get_user_choice():
             if user_choice == pokemon.name:
                 return pokemon
 
-
-
 # Makes a list of non-zero HP and non-user-selected Pokemon
 def get_available_pokemon():
     usable_pokemon = []
