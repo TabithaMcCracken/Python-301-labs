@@ -13,6 +13,133 @@ class Card:
     def __repr__(self) -> str:
         return f"{self.rank} of {self.suit}"
 
+class Deck:
+    """Standard Deck"""
+    def __init__(self) -> None:
+        
+        self.deck = []
+        suit_names = ["Clubs", "Diamonds", "Hearts", "Spades"]
+        rank_names = [
+            "Ace", 
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "Jack",
+            "Queen",
+            "King"
+        ]
+        card_values = {
+            "Ace": 11, # Ace starts as an 11 & is changed to a 1 if hand goes over 21
+            "2": 2, 
+            "3": 3, 
+            "4": 4, 
+            "5": 5,
+            "6": 6,
+            "7": 7,
+            "8": 8,
+            "9": 9,
+            "10": 10,
+            "Jack": 10,
+            "Queen": 10,
+            "King": 10
+        }
+
+        for suit in suit_names:
+            for card in rank_names:
+                self._deck.append(Card(suit, card, card_values[card]))
+
+    def shuffle(self):
+        for i in range(len(self._deck) - 1, 0, -1):
+            r = random.randint(0, i)
+            self._deck[i], self._deck[r] = self._deck[r], self._deck[i]
+
+    def deal_one(self):
+        return self._deck.pop(-1)
+
+    def __str__(self) -> str:
+        return f"{self._deck}"
+
+    def __repr__(self) -> str:
+        return f"Deck: \n{self._deck}"
+            
+class Player:
+    """Creates a player (which could be the dealer)"""
+    def __init__(self, name):
+        self.name = name
+        self.cards = []
+        self.score = 0
+    
+    def give_card(self, card):
+        self.cards.append(card)
+
+    def wants_another_card(self):
+        if self.score < 21:
+            return True
+
+class TwoPlayerGame:
+    def __init__(self, deck, player_one, player_two):
+        self.deck = deck
+        self.deck.shuffle()
+        self.player_one = player_one
+        self.player_two = player_two
+        self.player_score = 0
+        self.dealer_score = 0
+
+    def deal_two(self):
+        for _ in range(2):
+            self.player_one.give_card(self.deck.deal_one())
+
+    def deal_one(self):
+        self.player_one.give_card(self.deck.deal_one())
+    
+    def display_showing_cards(self):
+        for card in self.player_two:
+            player_score += player_two.card_value
+            print(f"Player Score: {player_score}")
+
+        
+
+    def turn(self):
+        if self.player_one.wants_another_card():
+            self.player_two.give_card(self.deck.deal_one())
+
+        if self.player_two.wants_another_card():
+            self.player_two.give_card(self.deck.deal_one())
+
+        self.print_showing_cards()
+        self.evaluate_score()
+
+    
+
+
+    
+
+class GameEngine:
+    def __init__(self, dealer_score, player_score):
+        self.game = TwoPlayerGame(Deck(), Player("Dealer"), Player("Tabitha"))
+        self.game.deal()
+        self.dealer_score = 0
+        self.player_score = 0
+
+    print(f"Player's Card:")
+    print(f"{player_card.rank} of {player_card.suit}")
+    # print(f"You're current score is: {player_score}")
+
+    def evaluate_score():
+        
+
+    def another_card():
+
+
+if __name__ == "__main__":
+    GameEngine()
+
 
 def game(deck):
     player_cards = []
@@ -136,20 +263,5 @@ def game(deck):
         
 
 
-suit_names = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
-rank_names = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
-            'Jack', 'Queen', 'King']
-card_values = {'Ace':11, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, 
-            '9':9, '10':10, 'Jack':10, 'Queen':10, 'King':10} 
-            # Ace starts as an 11 and is changed to a 1 if hand goes over 21
 
-deck = []
- 
-# Loop for every type of suit
-for suit in suit_names:
-    # Loop for every type of card in a suit
-    for card in rank_names:
-        # Adding card to the deck
-        deck.append(Card(suit, card, card_values[card]))
 
-game(deck)
