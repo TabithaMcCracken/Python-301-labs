@@ -1,31 +1,31 @@
-# Done
-# Build a very basic Pokémon class that allows you to simulate battles
-# in a Rock-Paper-Scissors game mechanic, as well as feed your Pokémon.
-#
-# The class should follow these specifications:
-#
-# - Each Pokemon should have a `name`, `primary_type`, `max_hp` and `hp`
-# - Primary types should be limited to `water`, `fire` and `grass`
-# - Implement a `battle()` method based on rock-paper-scissors that
-#   decides who wins based only on the `primary_type`:
-#       water > fire > grass > water
-# - Display messages that explain who won or lost a battle
-# - If a Pokemon loses a battle, they lose some of their `hp`
-# - If you call the `feed()` method on a Pokemon, they regain some `hp`
+"""
+Build a very basic Pokémon class that allows you to simulate battles
+in a Rock-Paper-Scissors game mechanic, as well as feed your Pokémon.
 
+The class should follow these specifications:
 
-from unicodedata import name
+- Each Pokemon should have a `name`, `primary_type`, `max_hp` and `hp`
+- Primary types should be limited to `water`, `fire` and `grass`
+- Implement a `battle()` method based on rock-paper-scissors that decides 
+who wins based only on the `primary_type`:
+       water > fire > grass > water
+- Display messages that explain who won or lost a battle
+- If a Pokemon loses a battle, they lose some of their `hp`
+- If you call the `feed()` method on a Pokemon, they regain some `hp`
+"""
+
 import random
-import csv
 import time
 from pathlib import Path
 from csv import DictReader
 
+computer_pokemon = "projects/computer_pokemon.csv"
+player_pokemon = "projects/player_pokemon.csv"
 hp_loss_decrement = 5   
 hp_feed_increment = 5
 
 class Pokemon():
-    """models basic Pokemon"""
+    """Models basic Pokemon"""
 
     def __init__(self, name, primary_type, max_hp, hp) -> None:
         self.name = name
@@ -34,9 +34,15 @@ class Pokemon():
         self.hp = hp
 
     def battle (self, computer_pokemon):
+        """Plays out the battle.
+
+        Args:
+            computer_pokemon (Pokemon): The computers Pokemon.
+        """
+
         print(
             f"You have chosen to battle with:\n"
-            f"{user_pokemon.name} HP: {user_pokemon.hp}\n"
+            f"{self.name} HP: {self.hp}\n"
             f"The computer has chosen to battle with:\n"
             f"{computer_pokemon.name} HP: {computer_pokemon.hp}\n"
         )
@@ -53,7 +59,7 @@ class Pokemon():
 
         if result == "draw":
             print(f"It's a tie! You both loose {hp_loss_decrement} HP. \n")
-            user_pokemon.change_hp(-hp_loss_decrement)
+            self.change_hp(-hp_loss_decrement)
             computer_pokemon.change_hp(-hp_loss_decrement)
         elif result == "win":
             print(f"You win! The computer loses {hp_loss_decrement} HP.")
@@ -63,7 +69,15 @@ class Pokemon():
             self.change_hp(-hp_loss_decrement)
 
     def determine_battle_result(self, computer_pokemon):
-                # water > fire > grass > water
+        """Returns whether the player wins, looses, or ties against the computer.
+
+        Args:
+            computer_pokemon (Pokemon): The computers Pokemon
+
+        Returns:
+            str: string with battle result
+        """
+        # water > fire > grass > water
         if self.primary_type == computer_pokemon.primary_type:
             return "draw"
         elif self.primary_type == "water" and computer_pokemon.primary_type == "fire":
@@ -80,7 +94,15 @@ class Pokemon():
             return "lose"
 
     def change_hp(self, change):
-        self.hp += change
+        """Changes the Pokemons HP is the Pokemon is alive and their max HP
+        hasn't been reached.
+
+        Args:
+            change (int): The amount of HP to change.
+        """
+        if self.hp > 0:
+            self.hp += change
+
         if self.hp > self.max_hp:
             self.hp = self.max_hp
             print(
@@ -89,7 +111,7 @@ class Pokemon():
             )
         elif self.hp <= 0:
             print(
-                f"{self.name} has lost all it's HP and is now dead."
+                f"{self.name} has lost all it's HP and is dead."
             )
         else:
             print(
@@ -103,33 +125,17 @@ class Pokemon():
         return "\n".join([self.name + ", Type: " + self.primary_type + ", HP: "
          + self.hp + ", Max HP: " + self.max_hp])
 
-def get_computer_pokemon():
-    computer_file_path = Path("/Users/tabithamccracken/Documents/codingnomads/"
-        "python-301-main-copy/projects/computer_pokemon.csv")
-    with open(computer_file_path,"r") as file_in:
-        dict_reader = DictReader(file_in)
-        computer_records = list(dict_reader)
 
-    computer_list_of_pokemon = []
-    for pokemon in computer_records:
-        computer_list_of_pokemon.append(
-            Pokemon(
-                pokemon["name"], 
-                pokemon["primary_type"], 
-                pokemon["max_hp"], 
-                pokemon["hp"]
-            )
-        )
-    
-    for pokemon in computer_list_of_pokemon:
-        pokemon.hp = int(pokemon.hp)
-        pokemon.max_hp = int(pokemon.max_hp)
+def get_pokemon(file_path):
+    """Returns the csv file of Pokemon as a list of Pokemon.
 
-    return computer_list_of_pokemon
+    Args:
+        file_path (string): File path to the players list of Pokemon
 
-def get_player_pokemon():
-    player_file_path = Path("/Users/tabithamccracken/Documents/codingnomads/"
-        "python-301-main-copy/projects/player_pokemon.csv")
+    Returns:
+        list: Pokemon list of players Pokemon
+    """
+    player_file_path = Path(file_path)
     with open(player_file_path,"r") as file_in:
         dict_reader = DictReader(file_in)
         player_records = list(dict_reader)
@@ -144,15 +150,17 @@ def get_player_pokemon():
                 pokemon["hp"]
             )
         )
-    # convert hp and max_hp from str to int, can I do this above somewhere?
+    # convert hp and max_hp from str to int
     for pokemon in player_list_of_pokemon:
         pokemon.hp = int(pokemon.hp)
         pokemon.max_hp = int(pokemon.max_hp)
 
     return player_list_of_pokemon
-#Print stats of Pokemon
+
 def print_pokemon_stats():
-    print("Computer's Pokemon: \n")
+    """Prints the current status of all Pokemon."""
+
+    print("\nComputer's Pokemon: \n")
     for pokemon in computer_list:
         print(
             f"{pokemon.name}, {pokemon.primary_type} type, HP"
@@ -161,36 +169,60 @@ def print_pokemon_stats():
 
     print("\nYour Pokemon: \n ")
     for pokemon in player_list:
-        print(
-            f"{pokemon.name}, {pokemon.primary_type} type, HP"
-            f" {pokemon.hp}, max HP {pokemon.max_hp}"
-        )
+        if pokemon.hp > 0:
+            print(
+                f"{pokemon.name}, {pokemon.primary_type} type, HP"
+                f" {pokemon.hp}, max HP {pokemon.max_hp}"
+            )
+        else:
+            print(
+                f"{pokemon.name}, {pokemon.primary_type} type, HP"
+                f" {pokemon.hp}, max HP {pokemon.max_hp} This Pokemon is dead."
+            )
 
-# User chooses a Pokemon to battle with
 def get_user_choice():
+    """Returns the users choice of Pokemon to use.
 
-    print_pokemon_stats()
-    print(f"\nWhich Pokemon would you like to select?\n") 
+    Returns:
+        Pokemon: The Pokemon the user has selected.
+    """
+    while True:
+        print_pokemon_stats()
+        print(f"\nWhich Pokemon would you like to select?\n") 
 
-    user_choice = input() 
-    
-    for pokemon in player_list:
-        if user_choice == pokemon.name:
-            return pokemon
+        user_choice = input()
+        
+        for pokemon in player_list:
+            if user_choice == pokemon.name and pokemon.hp > 0:
+                return pokemon
+            elif user_choice == pokemon.name and pokemon.hp <= 0:
+                print("That Pokemon is dead. Please select one that has an HP over 0.\n")
 
-# Computer chooses a Pokemon to battle with
 def get_computer_choice():
-        # Pick a random Pokemon from the list
-        computer_choice = random.choice(computer_list)
-        print(
-            f"\nThe computer has chosen to battle with {computer_choice.name}. "
-            f"They are a {computer_choice.primary_type} type. "
-            f"Their HP is {computer_choice.hp} and their max HP "
-            f"is {computer_choice.max_hp}.\n"
-        )
-        return computer_choice
+    """Returns the computers choice of Pokemon to use.
+
+    Returns:
+        Pokemon: computer's choice of a Pokemon
+    """
+    alive_pokemon = []
+
+    for pokemon in computer_list:
+        if pokemon.hp >0:
+            alive_pokemon.append(pokemon)
+
+    computer_choice = random.choice(alive_pokemon)
+
+    print(
+        f"\nThe computer has chosen to battle with {computer_choice.name}. "
+        f"They are a {computer_choice.primary_type} type. "
+        f"Their HP is {computer_choice.hp} and their max HP "
+        f"is {computer_choice.max_hp}.\n"
+    )
+    return computer_choice
 
 def game_loop():
+    """Runs through the game after initial setup is complete.
+    """
     while True:
         time.sleep(3)
         play_again = int(input(
@@ -198,8 +230,8 @@ def game_loop():
             " view current scores[3] or exit the game[4]?"
         ))
         if play_again == 1:
-            computer_pokemon = get_computer_choice()
             user_pokemon = get_user_choice()
+            computer_pokemon = get_computer_choice()
             user_pokemon.battle(computer_pokemon)
         elif play_again == 2:
             user_pokemon = get_user_choice()
@@ -212,8 +244,9 @@ def game_loop():
             break
 
 if __name__ == "__main__":
-    #Setup
-    # Get Pokemon from csv files
+    """Initializes, runs, and ends the game.
+    """
+
     print("Welcome to the Pokemon Game!\n")
     print(
         "In this game you nurture and battle your Pokemon against the "
@@ -221,10 +254,11 @@ if __name__ == "__main__":
     )
     print("Good luck!")
 
-    computer_list = get_computer_pokemon()
-    player_list = get_player_pokemon()
+    #Creates computer and players lists of Pokemon
+    computer_list = get_pokemon(computer_pokemon)
+    player_list = get_pokemon(player_pokemon)
 
-    # Get user choice of Pokemon to battle with
+    # Get users choice of Pokemon to battle with
     user_pokemon = get_user_choice()
     print(f"\nYou chose {user_pokemon.name} and your HP is {user_pokemon.hp}.")
     # Get computer pokemon
