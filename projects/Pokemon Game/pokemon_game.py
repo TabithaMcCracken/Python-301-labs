@@ -19,8 +19,8 @@ import time
 from pathlib import Path
 from csv import DictReader
 
-computer_pokemon = "projects/computer_pokemon.csv"
-player_pokemon = "projects/player_pokemon.csv"
+computer_pokemon = "projects/Pokemon Game/computer_pokemon.csv"
+player_pokemon = "projects/Pokemon Game/player_pokemon.csv"
 hp_loss_decrement = 5   
 hp_feed_increment = 5
 
@@ -198,6 +198,7 @@ def get_user_choice():
             elif user_choice == pokemon.name and pokemon.hp <= 0:
                 print("That Pokemon is dead. Please select one that has an HP over 0.\n")
 
+
 def get_computer_choice():
     """Returns the computers choice of Pokemon to use.
 
@@ -207,7 +208,7 @@ def get_computer_choice():
     alive_pokemon = []
 
     for pokemon in computer_list:
-        if pokemon.hp >0:
+        if pokemon.hp > 0:
             alive_pokemon.append(pokemon)
 
     computer_choice = random.choice(alive_pokemon)
@@ -220,29 +221,55 @@ def get_computer_choice():
     )
     return computer_choice
 
+def pokemon_alive(pokemon_list):
+    """Determines if there are still Pokemon alive in a players list.
+
+    Args:
+        pokemon_list (Pokemon list): list of players Pokemon
+
+    Returns:
+        Boolean: returns whether there are Pokemon still alive
+    """
+    alive_pokemon = 0
+    for pokemon in pokemon_list:
+        if pokemon.hp > 0:
+            alive_pokemon += 1
+    if alive_pokemon > 0:
+        return True
+    else:
+        return False
+
 def game_loop():
     """Runs through the game after initial setup is complete.
     """
     while True:
         time.sleep(3)
-        play_again = int(input(
-            "\nWould you like to battle again[1], feed your Pokemon[2],"
-            " view current scores[3] or exit the game[4]?"
-        ))
-        if play_again == 1:
-            user_pokemon = get_user_choice()
-            computer_pokemon = get_computer_choice()
-            user_pokemon.battle(computer_pokemon)
-        elif play_again == 2:
-            user_pokemon = get_user_choice()
-            user_pokemon.change_hp(5)
-        elif play_again == 3:
-            print_pokemon_stats()
-        elif play_again == 4:
-            break
+        #Check to see if each player has Pokemon that are alive
+
+        player_pokemon_alive = pokemon_alive(player_list)
+        computer_pokemon_alive = pokemon_alive(computer_list)
+
+        if player_pokemon_alive and computer_pokemon_alive: #both need to be true
+            play_again = int(input(
+                "\nWould you like to battle again[1], feed your Pokemon[2],"
+                " view current scores[3] or exit the game[4]?"
+            ))
+            if play_again == 1:
+                user_pokemon = get_user_choice()
+                computer_pokemon = get_computer_choice()
+                user_pokemon.battle(computer_pokemon)
+            elif play_again == 2:
+                user_pokemon = get_user_choice()
+                user_pokemon.change_hp(5)
+            elif play_again == 3:
+                print_pokemon_stats()
+            elif play_again == 4:
+                break
+            else:
+                break
         else:
             break
-
+        
 if __name__ == "__main__":
     """Initializes, runs, and ends the game.
     """
