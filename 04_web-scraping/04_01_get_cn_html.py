@@ -5,9 +5,11 @@
 # very common. head over to StackOverflow and find a solution!
 
 import requests
-import pprint
 response = requests.get("https://codingnomads.co/")
-# print(response.json())
+print(response.text)
+
+
+
 response.raise_for_status()
 print(response.status_code) # Status is 200, so not an issue with that
 print(response.headers["content-type"])
