@@ -1,3 +1,4 @@
+# Done
 # In three lines of code, fetch the HTML text from CodingNomads'
 # main page and print it to your console.
 #
@@ -10,9 +11,9 @@ print(response.text)
 
 
 
-response.raise_for_status()
-print(response.status_code) # Status is 200, so not an issue with that
-print(response.headers["content-type"])
+# response.raise_for_status()
+# print(response.status_code) # Status is 200, so not an issue with that
+# print(response.headers["content-type"])
 
 # Check type 
 # if response.status_code != 204 and response.headers["content-type"].strip().startswith("application/json"):
