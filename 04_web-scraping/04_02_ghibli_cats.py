@@ -6,4 +6,15 @@
 # Your task is to use the API to find information about all the cats that
 # appear in Studio Ghibli films.
 
-BASE_URL = "https://ghibliapi.herokuapp.com/"
+# BASE_URL = "https://ghibliapi.herokuapp.com/"
+import requests
+import json
+BASE_URL = "https://ghibliapi-iansedano.vercel.app"
+
+response = requests.get(BASE_URL)
+# data = response.json()
+print(response)
+
+
+
+

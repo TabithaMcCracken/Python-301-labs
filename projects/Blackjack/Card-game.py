@@ -61,7 +61,7 @@ class Deck:
 
 blackjack_deck = Deck()
 blackjack_deck.shuffle()
-print(repr(blackjack_deck))
+print(blackjack_deck)
 
 
 #class Deck():
