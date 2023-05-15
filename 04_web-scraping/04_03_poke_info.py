@@ -11,7 +11,7 @@
 # `.html` page which allows you to also display the sprites of each Pokémon.
 # Check out the guides they provide: https://pokeapi-how.appspot.com/page5
 
-BASE_URL = "https://pokeapi.co/api/v2/pokemon/?limit=6&offset=6"
+BASE_URL = "https://pokeapi.co/api/v2/pokemon/?limit=6&offset=0"
 import requests
 
 response = requests.get(BASE_URL)
@@ -24,9 +24,10 @@ for item in pokemon_data['results']:
     poke_response = requests.get(poke_url)
     poke_result = poke_response.json()
     print(f"Id: {poke_result['id']}")
-    print(f"Name: {poke_result['name']}")
+    print(f"Name: {poke_result['name'].capitalize()}")
+    print("Type/s:")
     for item in poke_result['types']:
-        print(f"Types: {item['type']['name']}")
+        print(f"{item['type']['name']}")
     print("\n")
 
 
