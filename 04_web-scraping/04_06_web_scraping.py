@@ -12,51 +12,51 @@ from bs4 import BeautifulSoup
 
 URL = "https://www.14ers.com/14ers"
 
-# # Scrape the website and save the response to a local file
+# # Scrape the website and save the response to a local html file
 # # Send a GET request to the URL
 # response = requests.get(URL)
 
 # # Check if the request was successful
 # if response.status_code == 200:
-#     # Parse the HTML content using BeautifulSoup
-#     soup = BeautifulSoup(response.content, 'html.parser')
-
-#     # Extract the desired information from the parsed HTML
-#     # Replace this with your specific logic to extract the content you need
-#     extracted_content = soup.get_text()
+#     # Get the HTML content
+#     html_content = response.text
 
 #     # Save the extracted content into a text file
-#     with open('scraped_content.html', 'w') as file:
-#         file.write(extracted_content)
+#     with open ('scraped_content.html', 'w') as file:
+#         file.write(html_content)
 
-#     print('Scraping successful. The content has been saved to "scraped_content.txt"')
+#     print('Scraping successful. The content has been saved to "scraped_content.html"')
 # else:
 #     print('Error: Failed to retrieve the web page')
 
 
-
+# Option 2: Get html from website
 # Make a GET request to fetch the raw HTML content
-html_content = requests.get(URL).text
+# response = requests.get(URL)
+# soup = BeautifulSoup(response.content, 'html.parser')
 
-# Parse the html content
+
+# Read the HTML file
+with open("scraped_content.html", "r", encoding="utf-8") as file:
+    html_content = file.read()
+
+# Parse the HTML content using BeautifulSoup
 soup = BeautifulSoup(html_content, "html.parser")
-print(soup.title.text) # print the parsed data of html
+
+peak_data = []
 # Parse content of file
+# Get the right table
 peaks_table = soup.find('table', attrs={'class' : 'v3-table rowhover alternaterowcolors1'})
-peaks_table_data = peaks_table.tbody.find_all('tr')
-
-headings = []
-for td in peaks_table_data.find_all("td"):
-    headings.append(td.b.text.replace('\n', ' ').strip())
-
-print(headings)
-
-# with open ('scraped_content.html', 'r') as file:
-#     file_content = file.read()
-#     soup = BeautifulSoup(file_content, 'html.parser')
-
-# print(type(soup))
-# print(soup.find('meta')) # returns None
-# for link in soup.find_all('a'):
-#     print(link.get('href'))
-# x = soup.body.find_all('div', attrs={'class':'container'}).text
+# Find the body of the table
+table_body = peaks_table.find('tbody')
+# Get the rows
+rows = table_body.find_all('tr')
+# Get the columns
+for row in rows:
+    cols = row.find_all('td')
+    cols = [ ele.text.strip() for ele in cols]
+    peak_data.append([ele for ele in cols if ele])
+ 
+# Print the first column
+for item in peak_data:
+    print(item[0])
