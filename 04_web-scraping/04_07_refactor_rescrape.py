@@ -60,9 +60,25 @@ def parse_file(html_file):
     rows = table_body.find_all('tr')
     # Get the columns
     for row in rows:
-        cols = row.find_all('td')
-        cols = [ ele.text.strip() for ele in cols]
-        peak_data.append([ele for ele in cols if ele])
+        # cols = row.find_all('td')
+        # cols = [
+        #     col.find('div', attrs={'class' : 'hide-8'}).text.strip() if col.find('div', attrs={'class' : 'hide-8'}) else col.text.strip()
+        #     for col 
+        #     in cols
+        # ]
+
+        cols = []
+        for col in row.find_all('td'):
+            hide8 = col.find('div', attrs={'class' : 'hide-8'})
+            if hide8:            
+                cols.append(hide8.text.strip())
+            else:
+                cols.append(col.text.strip())
+            
+        # print(cols)
+        peak_data.append(cols)
+
+
 
     return peak_data
 
@@ -73,4 +89,4 @@ if __name__ == "__main__":
     peaks_list = parse_file(html_file)
 
     for peak in peaks_list:
-        print(peak[0])
+        print(peak)
