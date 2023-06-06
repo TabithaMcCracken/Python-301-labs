@@ -13,7 +13,19 @@ from bs4 import BeautifulSoup
 import re
 import random
 
-response = requests.get(URL)
+
+try:
+    response = requests.get(URL)
+    response.raise_for_status()
+except requests.exceptions.Timeout:
+    print("Response timed out.")
+except requests.exceptions.TooManyRedirects:
+    print("The URL is bad, try a different one.")
+except requests.exceptions.RequestException as e: # catches base-class exception, handles rest of exceptions
+    raise SystemExit(e)
+
+
+
 soup = BeautifulSoup(response.text, 'html.parser')
 
 links = soup.find_all('a')
