@@ -13,3 +13,33 @@
 #    should NEVER terminate with a Traceback.
 #     a) Which exception can you expect to encounter? Why?
 #     b) How do you catch it to avoid the program from terminating with a traceback?
+
+war_and_peace = "books/war_and_peace.txt"
+crime_and_punishment = "books/crime_and_punishment.txt"
+pride_and_prejudice = "books/pride_and_prejudice.txt"
+
+
+# 1
+with open (war_and_peace, "r") as file:
+    war_contents = file.readlines()
+
+# 2
+with open (crime_and_punishment, "w") as file:
+    file.write("")
+
+# 3
+file_list = [war_and_peace, crime_and_punishment, pride_and_prejudice]
+
+for file in file_list:
+    try:
+        with open (file, "r") as infile:
+            text = infile.readlines()
+            line_text = text[0].strip()
+            first_char = line_text[0]
+            print(first_char)
+    except IndexError:
+        print(f"This file is empty: {file}")
+        # for x in text:
+        #     print (x[0])
+        # print(''.join(line[0] for line in infile if line))
+    
