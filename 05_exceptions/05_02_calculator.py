@@ -7,8 +7,6 @@
 # Test it and make sure it does not crash when you enter incorrect values.
 
 
-
-
 try:
     dividend = int(input("Please enter a number:"))
     divisor = int(input("Please enter another number:"))
