@@ -6,7 +6,6 @@ from unittest_function import gas_mileage_calculator
 
 class TestUnittest_function (unittest.TestCase):
 
-
     def test_function_throws_custom_negative_error (self):
         self.assertRaises(CustomNegativeError, gas_mileage_calculator, 300, 200, 5)
 
