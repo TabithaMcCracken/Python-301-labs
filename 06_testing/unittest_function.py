@@ -22,7 +22,7 @@ def gas_mileage_calculator(starting_miles, finishing_miles, gallons_of_gas):
     try:
         miles = finishing_miles-starting_miles
         if miles <= 0 :
-            raise CustomNegativeError("The mileage is negative or 0")
+            raise CustomNegativeError("The mileage must be greater than 0.")
         
         gas_mileage = miles / gallons_of_gas
         # assert gas_mileage > 0
