@@ -26,12 +26,11 @@ BASE_URL = f"https://pokeapi.co/api/v2/pokemon/?limit={number_pokemon_requested}
 
 def get_page_content(url):
     """Gets the responsefrom a HTTP call to the URL"""
-    page = requests.get(url)
-    return page
+    return requests.get(url)
 
-def convert_to_json(response):
-    pokemon_data = response.json()
-    return pokemon_data
+def convert_to_json(url):
+    response = get_page_content(url)
+    return response.json()
 
 def create_list_of_pokemon_urls(pokemon_data):
     # pokemon_urls = [url['url'] for url in pokemon_data['results']]- not needed, can put in return statement
