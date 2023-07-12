@@ -24,45 +24,55 @@ import json
 number_pokemon_requested = 8
 BASE_URL = f"https://pokeapi.co/api/v2/pokemon/?limit={number_pokemon_requested}&offset=0"
 
-def get_page_content(url):
+def get_page_content(url): # Test complete
     """Gets the responsefrom a HTTP call to the URL"""
     return requests.get(url)
 
-def convert_to_json(url):
+def convert_to_json(url): # Test complete
     response = get_page_content(url)
     return response.json()
 
-def create_list_of_pokemon_urls(pokemon_data):
+def create_list_of_pokemon_urls(url): # Test complete
+    pokemon_data = convert_to_json(url)
     # pokemon_urls = [url['url'] for url in pokemon_data['results']]- not needed, can put in return statement
     return ([url['url'] for url in pokemon_data['results']])
 
-
-def get_individual_pokemon_results_data(pokemon_url_list):
+def get_individual_pokemon_results_data(url): # Test complete
+    pokemon_url_list = create_list_of_pokemon_urls(url)
     list_of_pokemon_data = []
     for url in pokemon_url_list:
-        poke_response = get_page_content(url)
-        poke_result = convert_to_json(poke_response)
+        poke_result = convert_to_json(url)
         list_of_pokemon_data.append(poke_result)
-
     return list_of_pokemon_data
 
-def print_pokemon_data(pokemon_results):
-        for poke_result in pokemon_results:
-            print(f"Id type: {type(poke_result['id'])}")
-            print(f"Id: {poke_result['id']}")   
-            print(f"Name: {poke_result['name'].capitalize()}")
-            print("Type/s:")
-            for item in poke_result['types']:
-                print(f"{item['type']['name']}")
-            print("\n")
+def get_poke_id(poke_result):
+    return poke_result['id']
 
+def get_poke_name(poke_result):
+    return poke_result['name']
+
+def get_poke_types(poke_result):
+    types_list = [item['type']['name'] for item in poke_result['types']]
+    return types_list
+        
 
 if __name__ == "__main__":
-    response = get_page_content(BASE_URL)
-    pokemon_data = convert_to_json(response)
-    pokemon_url_list = create_list_of_pokemon_urls(pokemon_data)
-    pokemon_results = get_individual_pokemon_results_data(pokemon_url_list)
-    print_pokemon_data(pokemon_results)
+
+    pokemon_results = get_individual_pokemon_results_data(BASE_URL)
+
+    for item in pokemon_results:
+        id = get_poke_id(item)
+        print(f"Id: {id}")
+
+        name = get_poke_name(item)
+        print(f"Name: {name.capitalize()}")
+
+        poke_types = get_poke_types(item)
+        print("Type/s:")
+        for item in poke_types:
+            print(f"{item}")
+        print("\n")
+
 
 
     
